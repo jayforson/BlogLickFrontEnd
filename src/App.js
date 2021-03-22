@@ -8,9 +8,9 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 const UserAdmission = ({
-  user, 
-  handleLogOut, 
-  userLogin,  
+  user,
+  handleLogOut,
+  userLogin,
   loginRef }) => {
   if (user) {
     return(
@@ -42,7 +42,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const App = () => {
 
   const userLogin = (username, password) => {
     loginService
-      .login({username, password})
+      .login({ username, password })
       .then(user => {
         window.localStorage.setItem(
           'loggedBlogListUser', JSON.stringify(user)
@@ -67,7 +67,7 @@ const App = () => {
       })
       .catch(error => {
         console.log(error)
-        setNotification({type: 'error', message: `wrong username or password`})
+        setNotification({ type: 'error', message: `wrong username or password` })
         setTimeout(() => {
           setNotification(null)
         }, 5000)
@@ -80,19 +80,19 @@ const App = () => {
       author: author,
       url: url
     }
-    
+
     blogService
       .createBlog(newBlog)
       .then(response => {
         blogRef.current.toggleVisibility()
         setBlogs(blogs.concat(response))
-        setNotification({type: 'info', message: `a new blog ${newBlog.title} by ${newBlog.author} added`})
+        setNotification({ type: 'info', message: `a new blog ${newBlog.title} by ${newBlog.author} added` })
         setTimeout(() => {
           setNotification(null)
         }, 5000)
       })
-      .catch(error => {
-        setNotification({type: 'error', message: `an error occured when adding ${newBlog.title} by ${newBlog.author}`})
+      .catch(() => {
+        setNotification({ type: 'error', message: `an error occured when adding ${newBlog.title} by ${newBlog.author}` })
         setTimeout(() => {
           setNotification(null)
         }, 5000)
@@ -117,7 +117,7 @@ const App = () => {
   const onDeleteBlog = (id) => {
     blogService
       .deleteBlog(id)
-      .then(response => {
+      .then(() => {
         setBlogs(blogs.filter(blog => blog.id !== id))
       })
   }
@@ -129,30 +129,30 @@ const App = () => {
   }
 
   return (
-      <div>
-        <h2>Welcome to Blog Web</h2>
-        <Notification notification={notification}/>
-        <UserAdmission 
-          user={user} 
-          handleLogOut={handleLogOut}
-          userLogin={userLogin}
-          loginRef={loginRef}
+    <div>
+      <h2>Welcome to Blog Web</h2>
+      <Notification notification={notification}/>
+      <UserAdmission
+        user={user}
+        handleLogOut={handleLogOut}
+        userLogin={userLogin}
+        loginRef={loginRef}
+      />
+      <h2>Blogs</h2>
+      <Togglable buttonLabel='create' ref={blogRef}>
+        <BlogForm addBlog={addBlog}/>
+      </Togglable>
+      {blogs.map(blog =>
+        <Blog
+          key={blog.id}
+          blog={blog}
+          onUpdateBlog={onUpdateBlog}
+          onDeleteBlog={onDeleteBlog}
+          user={user}
         />
-        <h2>Blogs</h2>
-        <Togglable buttonLabel='create' ref={blogRef}>
-         <BlogForm addBlog={addBlog}/>
-        </Togglable>
-        {blogs.map(blog =>
-          <Blog 
-            key={blog.id}
-            blog={blog} 
-            onUpdateBlog={onUpdateBlog}
-            onDeleteBlog={onDeleteBlog}
-            user={user} 
-          />
-         )}
-      </div>
-    )
+      )}
+    </div>
+  )
 }
 
 export default App

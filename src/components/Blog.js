@@ -11,8 +11,8 @@ const DeleteButton = ({ blog, user, deleteBlog }) => {
   return null
 }
 
-const Blog = ({blog, onUpdateBlog, onDeleteBlog, user}) => {
-  
+const Blog = ({ blog, onUpdateBlog, onDeleteBlog, user }) => {
+
   const [viewDetail, setViewDetail] = useState(false)
 
   const showBrief = { display: viewDetail ? 'none' : '' }
@@ -48,13 +48,13 @@ const Blog = ({blog, onUpdateBlog, onDeleteBlog, user}) => {
           likes: {blog.likes} <button onClick={onLikeClicked}>like</button>
         </div>
         <div>author: {blog.author}</div>
-        <DeleteButton 
+        <DeleteButton
           blog={blog}
           user={user}
           deleteBlog={deleteBlog}
         />
       </div>
-    </div>  
+    </div>
   )
 }
 export default Blog
