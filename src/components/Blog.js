@@ -38,13 +38,13 @@ const Blog = ({ blog, onUpdateBlog, onDeleteBlog, user }) => {
 
   return (
     <div className='blog'>
-      <div style={showBrief}>
+      <div style={showBrief} className='showBrief'>
         {blog.title} <button onClick={() => {setViewDetail(!viewDetail)}}>view</button>
       </div>
-      <div style={showDetail}>
+      <div style={showDetail} className='showDetail'>
         <div>title: {blog.title} <button onClick={() => {setViewDetail(!viewDetail)}}>hide</button></div>
         <div>url: {blog.url}</div>
-        <div>
+        <div id='likes'>
           likes: {blog.likes} <button onClick={onLikeClicked}>like</button>
         </div>
         <div>author: {blog.author}</div>
